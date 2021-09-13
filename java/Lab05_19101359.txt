@@ -1,0 +1,170 @@
+public class Lab05_19101359{
+    public static void main(String[] args){
+        // Task 1(a)
+        System.out.print(Fac(5));
+        //Task 1(b)
+        System.out.print(fibo(5));
+        //Task 1(c)
+        int[] arr = {1,2,3,4,5};
+        PrintArray(arr,arr.length-1);
+        // Task 1(d)
+        System.out.print(powerN(5,2));
+        // Task 2(a)
+        DtoBinary(5);
+        // Task 2(b)
+        int[] arr2 = {1,2,5,3,8};
+        //task 2.1(b)
+        MyList list1 = new MyList(arr2);
+        System.out.print(list1.ListSum(list1.head));
+        System.out.println("");
+        //Task 2(c)
+        list1.ListPrint(list1.head);
+        //Task 3
+        System.out.print(hocBuilder(3));
+        //Task 5(a)
+        triangleS(5);
+        //Task 5(b)
+        ReverseTriangle(5,5);
+        //Task 6
+        int[]array={25000,100000,250000,350000}; 
+        print(array,0); 
+    }
+    // Task 1(a)
+    static int Fac(int n){
+        if(n==0){
+            return 1;
+        }
+        return n*Fac(n-1);
+    }
+    //Task 1(b)
+    static int fibo(int n){
+        if(n == 0){
+            return 0;
+        }
+        else if(n == 1){
+            return 1;
+        }
+        return fibo(n-1) + fibo(n-2);
+    }
+    //Task 1(c)
+    static void PrintArray(int[] a,int n){
+        if(n != -1){
+            PrintArray(a,n-1);
+            System.out.print(a[n]+" ");
+        }
+    }
+    // Task 1(d)
+    static int powerN(int base,int n){
+        if(n==0){
+            return 1;
+        }
+        return base * powerN(base,n-1);
+    }
+    // Task 2(a)
+    public static void DtoBinary(int n){
+        if(n>0){
+            DtoBinary(n/2);
+        }
+        System.out.print(n%2);
+    }
+    
+    //Task 3
+    public static int hocBuilder(int height){
+        if(height == 0) return 0;
+        else if(height == 1) return 8;
+        else return 5 + hocBuilder(height - 1);
+    }
+    //task 5(a)
+    static void triangleS(int n){
+        if(n==0) return;
+        else{
+            triangleS(n-1);
+            print(n);
+            System.out.println("");
+        }
+    }
+    static void print(int index){
+        if(index == 0) {
+            return;
+        }
+        else{
+            print(index -1);
+            System.out.print(index+" ");
+        }
+    }
+    //Task 5(b)
+    static void ReverseTriangle(int height,int n){
+        if(height == 0) return;
+        else{
+            spaceF(height-1);
+            print(n-height+1);
+            System.out.println("");
+            ReverseTriangle(height -1,n);
+        }
+    }
+    static void spaceF(int index){
+        if(index == 0){ return;}
+        else{
+            System.out.print(" "+" ");
+            spaceF(index -1);
+        }
+    }
+    //Task 6
+    public static double clacProfit(int invest){
+        if(invest <= 100000) return (invest-25000) / (1/0.045) ;
+        else{
+            return (clacProfit(100000)) + (invest - 100000) / (1/0.08);
+        }
+    }
+    public static void print(int[]array,int idx){
+        if(idx<array.length){
+            System.out.println("invest: "+array[idx]+"; Profitt : "+ clacProfit(array[idx]));
+            print(array,idx+1);
+        }
+    }
+}
+class MyList{ 
+    Node head;
+    MyList(){
+        Node head = null; 
+    }
+    MyList(int[] a){
+        head  = new Node(a[0],null);
+        Node temp = head;
+         for (int i = 1; i <len(a); i++) {
+            temp.next = new Node(a[i],null);
+            temp = temp.next;
+         }
+    }
+    // Task 2(b)
+    public static int ListSum(Node n){
+        if(n.next == null){
+            return 0;
+        }
+        return n.element+ListSum(n.next);
+    }
+    //task 2(c)
+    public static void ListPrint(Node n){
+        if(n.next == null){
+            System.out.print(n.element+" ");
+            return;
+        }
+        ListPrint(n.next);
+        System.out.print(n.element+" ");
+    }
+    public static int len(int[] a){ // return the length of an array
+        int count = 0;
+        for (int elements:a ){
+           count++;
+        }
+        return count;
+    }
+}
+class Node{
+    int element;
+    Node next ;
+    Node(int value,Node n){
+        element = value;
+        next = n;
+    }
+}

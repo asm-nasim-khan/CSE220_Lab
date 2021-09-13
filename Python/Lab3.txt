@@ -1,0 +1,117 @@
+class Node:
+    def __init__(self, e, n, p):
+        self.element = e
+        self.next = n
+        self.prev = p
+
+class DoublyList:
+    def __init__(self, a):      #a is a list
+        self.head = Node(None, None, None) #Dummy head
+        self.head.next = self.head
+        self.head.prev = self.head
+        if len(a) == 0:
+            print("List is empty")
+        else:
+            for i in a:
+                n = Node(i, None, None)
+                tail = self.head.prev      
+                n.next = self.head
+                n.prev = tail
+                tail.next = n
+                self.head.prev = n
+    
+    def showList(self):
+        n = self.head.next
+        linkedlist = ""
+        if self.head.next == self.head:
+            print("Empty list")
+            return
+        while n != self.head:
+            linkedlist += str(n.element) + " -> "
+            n = n.next
+        print(linkedlist[:-4])
+        
+    def count(self):        #length of list
+        count = 0
+        n = self.head.next
+        while n != self.head:
+            count += 1
+            n = n.next
+        return count
+    
+    def nodeAt(self, index): #find node at valid index
+        i = 0
+        n = self.head.next
+        while n != self.head:
+            if i==index:
+                return n    #return node at index
+            i += 1
+            n = n.next
+
+    def insert(self, newElement, index=None):
+        n = self.head.next
+        while n != self.head:
+            if n.element == newElement:
+                print("Key already exists")
+                return
+            n = n.next
+        if index==None or index==self.count(): #insert at end
+            q = self.head
+        elif index<0 or index>self.count():
+            print("Invalid Index")
+            return
+        else:
+            q = self.nodeAt(index)  #node that would be after newNode
+        newNode = Node(newElement, None, None)
+        p = q.prev       #node that would be before newNode
+        newNode.next = q
+        newNode.prev = p
+        p.next = newNode
+        q.prev = newNode
+    
+    def remove(self, index=None, deletekey=None):
+        if index!=None:        #remove node at index
+            if index<0 or index>self.count()-1:
+                print("Invalid Index")
+                return
+            toRemove = self.nodeAt(index)
+        elif deletekey!=None:   #remove node with that key
+            n = self.head.next
+            check = False
+            while n != self.head:
+                if n.element == deletekey:
+                    check = True
+                    break
+                n = n.next
+            if check==True:
+                toRemove = n
+            else:
+                print("The key doesn't exit")
+                return
+        p = toRemove.prev
+        q = toRemove.next
+        p.next = q
+        q.prev = p
+        toRemove.next = toRemove.prev = None
+        print("Removed:", toRemove.element)
+        toRemove.element = None
+
+        
+###Test###
+lst1 = [11, 24, 37, 42]
+#1
+linkedLst1 = DoublyList(lst1)
+#2
+linkedLst1.showList()
+#3
+linkedLst1.insert(5) #insert 5 at tail
+linkedLst1.showList()
+#4
+linkedLst1.insert(6, 2) #insert 6 at index 2
+linkedLst1.showList()
+#5
+linkedLst1.remove(index=1)  #remove node at index 1
+linkedLst1.showList()
+#6
+linkedLst1.remove(deletekey=42)  #remove node with value 42
+linkedLst1.showList()

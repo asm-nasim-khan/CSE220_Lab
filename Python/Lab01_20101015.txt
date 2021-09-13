@@ -1,0 +1,233 @@
+#(In Python)
+#Linear Array
+###################
+
+#Question No.1 (Shift Left k Cells)
+
+def shiftLeft(source, k):
+    newlist = [0]*len(source)
+    a=k
+    while a<len(source):
+        newlist[a-k]=source[a]
+        a=a+1
+    c=0
+    while c<len(source):
+        source[c]=newlist[c]
+        c=c+1
+        
+source = [10,20,30,40,50,60]
+shiftLeft(source,3)
+print(source)
+
+####################
+
+#Question No.2 (Rotate Left k cells)
+
+def rotateLeft(source, k):
+    newlist = [0]*len(source)
+    a=k
+    while a<len(source):
+        newlist[a-k]=source[a]
+        a=a+1
+    b=0
+    while b<k:
+        newlist[len(source)-k+b] = source[b]
+        b=b+1
+    c=0
+    while c<len(source):
+        source[c]=newlist[c]
+        c=c+1
+
+source = [10,20,30,40,50,60]
+rotateLeft(source,3)
+print(source)
+
+#####################
+
+#Question No.3 (Remove an element from an array)
+
+def remove(source, size, idx):
+    i=idx
+    while i<size-1:
+        source[i]=source[i+1]
+        i=i+1
+    source[size-1]=0
+
+source=[10,20,30,40,50,0,0]
+remove(source,5,2)
+print(source)
+
+#####################
+
+#Question No.4 (Remove all occurrences of a particular element from an array)
+
+def removeAll(source, size, element):
+    newlist = [0]*size
+    i = 0
+    j = 0
+    while i<size:
+        if source[i]!=element:
+            newlist[j] = source[i]
+            j = j + 1
+        i = i + 1
+    a = 0
+    while a<size:
+        source[a] = newlist[a]
+        a = a + 1
+
+source=[10,2,30,2,50,2,2,0,0]
+removeAll(source,7,2)
+print(source)
+
+######################
+
+#Question No.5 (Splitting an Array)
+
+def checkSplit(weights):
+    check = False
+    for i in range(1, len(weights)):
+        leftSum = 0
+        rightSum = 0
+        for a in range(0, i):
+            leftSum += weights[a]
+        for b in range(i, len(weights)):
+            rightSum += weights[b]
+        if leftSum==rightSum:
+            check = True
+            break
+    return check
+
+weights = [10, 3, 1, 2, 10]
+if checkSplit(weights):
+    print("true")
+else:
+    print("false")
+
+########################
+
+#Question No.6 (Array series)
+
+def makeArray(num):
+    newlist = []
+    i = 0
+    while (i<num):
+        smallList = [0]*num
+        a = 0
+        while (a<=i):
+            smallList[num-(a+1)] = a+1
+            a += 1
+        newlist += smallList
+        i += 1 
+    return newlist
+
+n = int(input())
+arr = makeArray(n)
+print(arr)
+
+########################
+
+#Question No.7 (Max Bunch Count)
+
+def findBunchSize(lst):
+    countList = []
+    count = 1
+    temp = lst[0]
+    i = 1
+    while i<len(lst):
+        if lst[i]==temp:
+            count += 1
+        else:
+            countList += [count]
+            count = 1
+        temp = lst[i]
+        i += 1
+    countList += [count]
+    
+    maxCount = 0
+    a = 0
+    while a<len(countList):
+        if maxCount<countList[a]:
+            maxCount = countList[a]
+        a += 1
+
+    return maxCount
+
+lst = [1, 1, 2, 2, 1, 1, 1, 1] 
+print(findBunchSize(lst))
+
+#######################
+
+#Question No.8 (Repetition)
+
+def pairRepeats(lst):
+    check = False
+    newdict = {}
+    for n in lst:
+        if n not in newdict:
+            newdict[n] = 1
+        else:
+            newdict[n] += 1
+            
+    repeatList = []
+    for m in newdict:
+        if newdict[m]==1:
+            continue
+        if newdict[m] in repeatList:
+            check = True
+            break
+        else:
+            repeatList += [newdict[m]]
+    return check
+
+lst = [4,5,6,6,4,3,6,4]
+if pairRepeats(lst):
+    print("True")
+else:
+    print("False")
+
+########################
+
+#Circular Array
+#Question No.1 (Palindrome)
+
+def palindrome(lst, start, size):
+    newlist = [0]*size
+    index = start
+    for i in range(0, size):
+        newlist[i] = lst[index]
+        index = (index + 1) % len(lst)
+    reverselist = [0]*size
+    for i in range(0, size):
+        reverselist[i] = newlist[size-(i+1)]
+    if reverselist == newlist :
+        return True
+    else:
+        return False
+
+source = [20,10,0,0,0,10,20,30]
+if palindrome(source, 5, 5):
+    print("True")
+else:
+    print("False")
+
+########################
+
+#Question No.2 (Intersection)
+
+def intersection(a1, a2, start_1, start_2, size_1, size_2):
+    newA1 = [0]*size_1
+    index = start_1
+    for i in range(0, size_1):
+        newA1[i] = a1[index]
+        index = (index + 1) % len(a1)
+    common = []
+    for i in newA1:
+        if i in a2:
+            common += [i]
+    return common
+
+array1 = [40,50,0,0,0,10,20,30] 
+array2 = [10,20,5,0,0,0,0,0,5,40,15,25]
+print(intersection(array1, array2, 5, 8, 5, 7))
+
+############THE END#############

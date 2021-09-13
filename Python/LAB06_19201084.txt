@@ -1,0 +1,295 @@
+#TASK1
+def selection_sort_rc(arr,start=1):
+    length=len(arr)
+    first=arr[start-1]
+    if start==length-1:
+        return
+    min=arr[start]
+    min_idx=start
+    for x in range(start,length):
+        if min>arr[x]:
+            min_idx=x
+            min=arr[x]
+    if first>min:
+        arr[start-1],arr[min_idx]=arr[min_idx],arr[start - 1]
+    selection_sort_rc(arr,start+1)
+if __name__ == '__main__':
+    elements = [2, 1, 5, 7, 2, 0, 5, 1, 2, 9,  5, 8, 3]
+    n=len(elements)
+    print(f'Given unsorted list: {elements}')
+    selection_sort_rc(elements)
+    print(f'List after Sorting : {elements}')
+
+#===============================================================================
+#TASK2
+
+def insertion_sort_re(elements,n):
+    if n==0:
+        return
+    anchor = elements[n]
+    j = n - 1
+    #Recursive_call
+    insertion_sort_re(elements, n-1)
+    while j >= 0 and anchor < elements[j]:
+        elements[j + 1] = elements[j]
+        j = j - 1
+    elements[j + 1] = anchor
+if __name__ == '__main__':
+    elements = [2, 1, 5, 7, 2, 0, 5, 1, 2, 9,  5, 8, 3]
+    n=len(elements)-1
+    print(f'Given unsorted list: {elements}')
+    insertion_sort_re(elements,n)
+    print(f'List after Sorting : {elements}')
+
+#===============================================================================
+#TASK3
+class Node:
+    def __init__(self, data=None, next=None):
+        self.data = data
+        self.next = next
+
+
+class LinkedList:
+
+    def __init__(self):
+        self.head = None
+        self.size=0
+
+    # Inserting Values at the Beginning
+    def insert_at_beginning(self, data):
+        node = Node(data, self.head)
+        self.head = node
+        self.size+=1
+
+    # Inserting Values at the ending
+    def insert_at_endning(self, data):
+        if self.head is None:
+            self.head = Node(data, None)
+            self.size += 1
+            return
+        itr = self.head
+        while itr.next:
+            itr = itr.next
+        itr.next = Node(data, None)
+        self.size += 1
+
+    # Inserting Values From List at the end
+    def insert_values(self, data_list):
+        self.head = None
+        for data in data_list:
+            self.insert_at_endning(data)
+    def print(self):
+        if self.head is None:
+            print("Linked List is empty")
+            return
+        itr = self.head
+        llstr = ''
+        while itr:
+            llstr += str(itr.data) + '-->'
+            itr = itr.next
+        print("HEAD=" + llstr + f"None\n")
+
+
+
+def bubble_sort(elements):
+    size = elements.size
+
+    for i in range(size-1):
+        swapped = False
+        itr=elements.head
+        for j in range(size-1-i):
+            if itr.data > itr.next.data:
+                itr.data,itr.next.data=itr.next.data,itr.data
+                swapped = True
+            itr=itr.next
+        if not swapped:
+            break
+
+
+if __name__ == '__main__':
+    ll = LinkedList()
+    ll.insert_values([5, 9, 2, 1, 67, 34, 88, 34])
+    ll.print()
+    bubble_sort(ll)
+    ll.print()
+
+
+#===============================================================================
+#TASK4
+
+class Node:
+    def __init__(self, data=None, next=None):
+        self.data = data
+        self.next = next
+
+
+class LinkedList:
+
+    def __init__(self):
+        self.head = None
+        self.size=0
+
+    # Inserting Values at the Beginning
+    def insert_at_beginning(self, data):
+        node = Node(data, self.head)
+        self.head = node
+        self.size+=1
+
+    # Inserting Values at the ending
+    def insert_at_endning(self, data):
+        if self.head is None:
+            self.head = Node(data, None)
+            self.size += 1
+            return
+        itr = self.head
+        while itr.next:
+            itr = itr.next
+        itr.next = Node(data, None)
+        self.size += 1
+
+    # Inserting Values From List at the end
+    def insert_values(self, data_list):
+        self.head = None
+        for data in data_list:
+            self.insert_at_endning(data)
+    def print(self):
+        if self.head is None:
+            print("Linked List is empty")
+            return
+        itr = self.head
+        llstr = ''
+        while itr:
+            llstr += str(itr.data) + '-->'
+            itr = itr.next
+        print("HEAD=" + llstr + f"None")
+
+def selection_sort_ll(eles):
+    itr=eles.head
+    while itr.next:
+        min_idx=itr
+        itr2=itr
+        while itr2:
+            if itr2.data<min_idx.data:
+                min_idx=itr2
+            itr2=itr2.next
+        if itr!=min_idx:
+            itr.data,min_idx.data=min_idx.data,itr.data
+        itr=itr.next
+
+if __name__ == '__main__':
+    ll = LinkedList()
+    ll.insert_values([5, 9, 2, 1, 67, 34, 88, 34])
+    ll.print()
+    selection_sort_ll(ll)
+    ll.print()
+
+
+
+#===============================================================================
+#TASK5
+class Node:
+    def __init__(self, value):
+        self.next = None
+        self.prev = None
+        self.val = value
+    def __repr__(self):
+        return str(self.val)
+
+
+class DoubleLinkedList:
+    def __init__(self):
+        self.head = None
+        self.tail = None
+        self.size = 0
+
+    def add(self, val):
+        node = Node(val)
+        if self.tail is None:
+            self.head = node
+            self.tail = node
+            self.size += 1
+        else:
+            self.tail.next=node
+            node.prev=self.tail
+            self.tail=node
+            self.size+=1
+    def multi_add(self,arr):
+        for x in arr:
+            self.add(x)
+    def __str__(self):
+        itr=self.head
+        if self.head is not None:
+            dllstr=""
+            while itr:
+                dllstr+=str(itr.val)+'<-->'
+                itr=itr.next
+            return dllstr[:-4]
+        else:
+            return "Empty Linked List"
+
+def insertion_sort(elements):
+    itr=elements.head.next
+    while itr!=elements.tail.next:
+        anchor=itr.val
+        j=itr.prev
+        while anchor<j.val:
+            j.next.val=j.val
+            j=j.prev
+            if j==None:
+                break
+        if j!=None:
+            j.next.val=anchor
+        else:
+            elements.head.val=anchor
+        itr=itr.next
+if __name__ == '__main__':
+    dll = DoubleLinkedList()
+    dll.multi_add([5, 9, 2, 1, 67, 34, 88, 34])
+    print(dll)
+    insertion_sort(dll)
+    print(dll)
+
+
+
+#===============================================================================
+#TASK6
+
+def binary_search_recursive(sorted_number_list,number_to_find,left_index,right_index):
+    if right_index<left_index:
+        return "Not Found"
+
+    mid_index = (left_index + right_index) // 2
+    mid_number = sorted_number_list[mid_index]
+
+    if mid_number == number_to_find:
+        return "The number is in the list at index: " + str(mid_index)
+
+    if mid_number < number_to_find:
+        left_index = mid_index + 1
+    else:
+        right_index = mid_index - 1
+
+    return binary_search_recursive(sorted_number_list,number_to_find,left_index,right_index)
+nums=[1,2,3,4,5,6,7,8,9,10]
+print(binary_search_recursive(nums,7,0,9))
+
+#==================================================================================================
+#TASK7
+
+fib_cache = [1,1]
+def fibonacci(n):
+    if type(n) != int:
+        raise TypeError("n must be a positive integer")
+    if n < 0:
+        raise ValueError("n must be a positive integer")
+    if n<len(fib_cache):
+        return fib_cache[n]
+    else:
+        value = fibonacci(n - 1) + fibonacci(n - 2)
+    fib_cache.insert(n,value)
+    return value
+print(fibonacci(9))
+
+
+
+#=======================================================================================================

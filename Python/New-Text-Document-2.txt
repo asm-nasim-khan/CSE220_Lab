@@ -1,0 +1,140 @@
+class node:
+    def __init__(self, data=None):
+        self.data = data
+        self.address = None
+
+
+class MyList:
+    def __init__(self, a=None):
+        self.list = []
+        if a is None:
+            return
+        elif isinstance(a, list):
+            if len(a) == 0:
+                raise ValueError('List cannot be empty')
+            else:
+                self.list = a
+            return
+        elif isinstance(a, MyList):
+            if len(a.list) == 0:
+                raise ValueError('List cannot be empty')
+            else:
+                self.list = a.list.copy()
+        else:
+            raise TypeError('Unknown type for a')
+
+
+def insert(start, newElement):
+    current = node(newElement)
+    boolean = search(start, newElement)
+    if boolean is True:
+        print('Item exists')
+        return start
+    else:
+        if start == None:
+            start = current
+        else:
+            pointer = start
+            while pointer.address != None:
+                pointer = pointer.address
+            pointer.address = current
+
+        return start
+
+
+def search(start, item):
+    current = start
+    while current != None:
+        if current.data == item:
+            return True
+        current = current.address
+    return False
+
+
+def showList(start):
+    if start == None:
+        return 'Empty List'
+    else:
+        while start != None:
+            print(start.data)
+            start = start.address
+
+def insert1(start,newElement,index):
+    if start == None:
+        raise ValueError('List cannot be empty')
+    else:
+        boolean = search(start, newElement)
+        if boolean is True:
+            print('Item exists')
+            return start
+        else:
+            new_node = node(newElement)
+            if start == None:
+                start = new_node
+            else:
+                current = start
+                count = 1
+                while current != None and count < index:
+                    current = current.address
+                    count += 1
+
+                new_node.address = current.address
+                current.address = new_node
+            return start
+
+
+def arrayToList(arr):
+    start = None
+    n = len(arr)
+    for i in range(0, n, 1):
+        start = insert(start, arr[i])
+
+    return start
+
+
+def isEmpty(start):
+    if start == None:
+        return 'True'
+    else:
+        return 'False'
+
+
+def clear(start):
+    if start == None:
+        raise ValueError('List cannot be empty.')
+    else:
+        while start != None:
+            current_node = start
+            start = start.address
+            current_node = None
+        start = None
+    return start
+
+
+def remove(start, deletekey):
+    if start == None:
+        raise ValueError('List cannot be empty')
+    else:
+        current = start
+        if current is not None:
+            if current.data == deletekey:
+                start = current.address
+                current = None
+                return deletekey
+
+        while current is not None:
+            if current.data == deletekey:
+                break
+            previous_node = current
+            current = current.address
+        if current == None:
+            return 'Node not found'
+
+        previous_node.address = current.address
+        return deletekey
+
+
+lst = MyList([1, 2, 3])
+start = arrayToList(lst.list)
+start = insert1(start,7,2)
+showList(start)
